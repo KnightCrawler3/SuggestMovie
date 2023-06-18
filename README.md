@@ -1,5 +1,6 @@
-# Angular MoviesExpo
-
+# My take on Angular MoviesExpo
+Thanks to the creator, i am adding suggest movie feature on top the codebase.
+I intend to make movie searching process a lot less time consuming
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.9.
 
 ## Development server
