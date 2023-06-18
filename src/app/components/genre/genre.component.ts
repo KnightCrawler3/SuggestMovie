@@ -11,7 +11,7 @@ import { delay } from 'rxjs/internal/operators/delay';
 export class GenreComponent implements OnInit {
   moviesGenre: any;
   title: string;
-  public id: number;
+  public genrelist: string;
   loader = true;
 
   constructor(
@@ -21,16 +21,16 @@ export class GenreComponent implements OnInit {
 
   ngOnInit() {
     this.router.params.subscribe((params: Params) => {
-      this.id = params['id'];
-      this.title = params['name'];
-      this.getMoviesGenre(this.id);
+      this.genrelist = params['names'];
+      this.title = params['names'];
+      this.searchMovies();
     });
   }
 
-  getMoviesGenre(id) {
-    this.movieService.getMoviesByGenre(id).pipe(delay(2000)).subscribe((res: any) => {
-        this.moviesGenre = res.results;
-        this.loader = false;
+  searchMovies(){
+    this.movieService.getMoveisByMultipleGenres(this.genrelist).pipe(delay(2000)).subscribe((res: any) => {
+      this.moviesGenre = res.results;
+      this.loader = false;
     });
   }
 

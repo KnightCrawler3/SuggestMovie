@@ -1,35 +1,59 @@
 <div class="hero">
 
-    <div class="align">
-        <div class="title">
-            Suggest Me
-        </div>
-        <ng-container *ngIf="showTVMovieBtn">
-            <div >
-                <button type="button" class="btn btn-primary"  (click)="btnClick('tvseries')" style="height: 40px;width: 100px; margin-right: 30px; vertical-align: middle; font-size: initial;"> TV Series</button>
-                <button type="button" class="btn btn-primary"  (click)="btnClick('movies')" style="height: 40px;width: 80px; margin-left: 30px; vertical-align: middle; font-size: initial;"> Movies</button>
-            </div>
-        </ng-container>
-        <div style="display: flex;
-        align-items: center;
-        justify-content: center;" *ngIf="!showTVMovieBtn">
-            <div >
-                <tr>
-                    <td>
-                        <mat-button-toggle-group  multiple>
-                            <ng-container *ngFor="let genre of genreslist">
-                                <mat-button-toggle value="{{genre.name}}" class="toggle" (change)="onToggleClick($event.value,$event)">{{genre.name}}</mat-button-toggle>
-                            </ng-container>
-                          </mat-button-toggle-group>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <button type="button" class="btn btn-primary"  (click)="btnClick('movies')" style="height: 40px;width: 80px; margin-left: 30px; vertical-align: middle; font-size: initial;"> Search</button>    
-                    </td>
-                </tr>
-                
+        <div class="backdrop">
+            <div class="lazyloaded">
+                <img alt="sdsd" class="lazyload image"
+                    src="https://image.tmdb.org/t/p/original//81vgYY5fnGdi3WoCCoSm50gFSKn.jpg">
             </div>
         </div>
-    </div>
+        <div style="position: inherit; top: 170px;">
+            <mat-grid-list cols="2" rowHeight="2:1">
+                <mat-grid-tile >
+            
+                    <div class="pane">
+                        <div >
+                            <h1 class="name" >
+                                Suggest Me
+                            </h1>
+                            <div style="margin-top: 50px;">
+                                <ng-container *ngIf="showTVMovieBtn">
+                                    <div>
+                                        <button type="button" class="btn btn-primary" (click)="btnClick('tvseries')"
+                                            style="height: 60px;width: 120px; margin-right: 30px; vertical-align: middle; font-size: initial;">
+                                            TV Series</button>
+                                        <button type="button" class="btn btn-primary" (click)="btnClick('movies')"
+                                            style="height: 60px;width: 120px; margin-left: 30px; vertical-align: middle; font-size: initial;">
+                                            Movies</button>
+                                            
+                                    </div>
+                                </ng-container>
+                                <button type="button" *ngIf="!showTVMovieBtn" class="btn btn-primary" (click)="searchMovies()"
+                                        style="height: 60px;width: 120px; margin-left: 30px; vertical-align: middle; font-size: initial;">
+                                        Search</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </mat-grid-tile>
+                <mat-grid-tile class="align">
+            
+                    <div style="display: flex;
+                            align-items: center;
+                            justify-content: center;" *ngIf="!showTVMovieBtn">
+                        <div style="display: block;">
+                            <tr >
+                                <td>
+                                    <mat-button-toggle-group  style="" multiple>
+                                        <ng-container *ngFor="let genre of genreslist">
+                                            <mat-button-toggle style="width: 400px;margin-right: 5px;margin-bottom: 2px;" value="{{genre.name}}" class="toggle"
+                                                (change)="onToggleClick($event.value,$event)">{{genre.name}}</mat-button-toggle>
+                                        </ng-container>
+                                    </mat-button-toggle-group>
+                                </td>
+                            </tr>
+                        </div>
+                    </div>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </div>
 </div>

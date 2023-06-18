@@ -33,7 +33,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'genres/:id/:name',
+    path: 'genres/:names',
     loadChildren: () => import('./components/genre/genre.module').then(mod => mod.GenreModule)
   },
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { delay } from 'rxjs/internal/operators/delay';
 import { MoviesService } from 'src/app/service/movies.service';
 
@@ -15,8 +16,8 @@ export class SuggestMovieComponent implements OnInit {
     { value: 'pizza-1', viewValue: 'Pizza' },
     { value: 'tacos-2', viewValue: 'Tacos' }
   ];
-  list = new Map();
-  constructor(private _movie: MoviesService) { }
+  selectedList = new Map();
+  constructor(private _movie: MoviesService,private router: Router) { }
 
   ngOnInit() {
     this.getGenres();
@@ -29,9 +30,9 @@ export class SuggestMovieComponent implements OnInit {
 
   onToggleClick(value,$event) {
     if($event.source._checked){
-      this.list.set(value,true);
+      this.selectedList.set(value,true);
     }else{
-      this.list.delete(value);
+      this.selectedList.delete(value);
     }
   }
 
@@ -41,8 +42,9 @@ export class SuggestMovieComponent implements OnInit {
       //this.loader = false;
     });
   }
-
-  submit(){
-    
+  searchMovies(){
+    let querystring='';
+     querystring=Array.from(this.selectedList.keys()).join(",");
+    this.router.navigateByUrl(`/genres/${querystring}`);
   }
 }

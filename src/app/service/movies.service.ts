@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,46 @@ export class MoviesService {
   apiKey: string;
   language: string;
   region: string;
+  movieGenresMap = new Map([
+    ["Action", 28],
+    ["Adventure", 12],
+    ["Animation", 16],
+    ["Comedy", 35],
+    ["Crime", 80],
+    ["Documentary", 99],
+    ["Drama", 18],
+    ["Family", 10751],
+    ["Fantasy", 14],
+    ["History", 36],
+    ["Horror", 27],
+    ["Music", 10402],
+    ["Mystery", 9648],
+    ["Romance", 10749],
+    ["Science Fiction", 878],
+    ["TV Movie", 10770],
+    ["Thriller", 53],
+    ["War", 10752],
+    ["Western", 37]
+  ]);
+
+  tvGenresMap = new Map([
+    [10759, "Action & Adventure"],
+    [16, "Animation"],
+    [35, "Comedy"],
+    [80, "Crime"],
+    [99, "Documentary"],
+    [18, "Drama"],
+    [10751, "Family"],
+    [10762, "Kids"],
+    [9648, "Mystery"],
+    [10763, "News"],
+    [10764, "Reality"],
+    [10765, "Sci-Fi & Fantasy"],
+    [10766, "Soap"],
+    [10767, "Talk"],
+    [10768, "War & Politics"],
+    [37, "Western"],
+  ]);
 
   constructor(private http: HttpClient) {
     this.baseUrl = 'https://api.themoviedb.org/3/';
@@ -48,6 +88,16 @@ export class MoviesService {
 
   getGenres(): Observable<any> {
     return this.http.get(`${this.baseUrl}genre/movie/list?api_key=${this.apiKey}&language=${this.language}`);
+  }
+
+  getMoveisByMultipleGenres(list) {
+
+    let querystring = [];
+    let genrelist = list.split(',');
+    genrelist.forEach(key => {
+      querystring.push(this.movieGenresMap.get(key));
+    });
+    return this.http.get(`${this.baseUrl}discover/movie?api_key=${this.apiKey}&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${querystring.toString()}`);
   }
 
   getMoviesByGenre(id: string): Observable<any> {

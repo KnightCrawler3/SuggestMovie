@@ -7,8 +7,28 @@
     left: 0;
     bottom: 0;
     right: 0;
+    overflow: inherit;
 }
 
 .toggle{
     font-size: medium;
+}
+
+mat-button-toggle-group {
+    flex-wrap: wrap;
+  }
+
+  .mat-button-toggle{
+    background-color: #dc4666;
+    color: #ffffff;
+}
+
+.mat-button-toggle:hover {
+    background-color: #7c3142 ;
+    color: #ffffff !important;    
+}
+
+.mat-button-toggle-checked {
+    background-color: #7c3142 ;
+    color: #ffffff !important;  
 }
