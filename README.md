@@ -19,23 +19,17 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 - The Movie DB get Your own api key -> https://www.themoviedb.org
 - Firebase get your own firebase data -> https://firebase.google.com
 
-Live Demo https://flixmovies-82298.firebaseapp.com
+
 
 
 ## Installation
 
 ```bash
-git clone https://github.com/abidakram01/angular-movie-app.git
+git clone https://github.com/KnightCrawler3/SuggestMovie.git
 cd angular-movie-app
 npm install
 ng serve and go to http://localhost:4200/
 ```
-
-<p align="center">
-    <a href="https://flixmovies-82298.firebaseapp.com">
-        <img src="https://github.com/abidakram01/FlixMovies/blob/master/moviesScreen.png" alt="FlixMovies" />
-    </a>
-</p>
 
 ## Become a contributor ?
 
