@@ -8,43 +8,33 @@ import { MoviesService } from 'src/app/service/movies.service';
   templateUrl: './suggest-movie.component.html',
   styleUrls: ['./suggest-movie.component.scss']
 })
-export class SuggestMovieComponent implements OnInit {
-  showTVMovieBtn: boolean = true;
-  genreslist: any;
-  foods = [
-    { value: 'steak-0', viewValue: 'Steak' },
-    { value: 'pizza-1', viewValue: 'Pizza' },
-    { value: 'tacos-2', viewValue: 'Tacos' }
-  ];
-  selectedList = new Map();
-  constructor(private _movie: MoviesService,private router: Router) { }
+export class SuggestMovieComponent {
 
-  ngOnInit() {
-    this.getGenres();
-  }
+  public showTVMovieBtn: boolean = true;
+  public genreslist: any;
+  private _selectedFeature;
+  private _selectedList = new Map();
+  constructor(private _movie: MoviesService, private router: Router) { }
 
   btnClick(feature) {
     this.showTVMovieBtn = false;
+    this._selectedFeature = feature;
     this.getGenres(feature);
   }
 
-  onToggleClick(value,$event) {
-    if($event.source._checked){
-      this.selectedList.set(value,true);
-    }else{
-      this.selectedList.delete(value);
-    }
+  onToggleClick(value, $event) {
+    $event.source._checked ? this._selectedList.set(value, true) : this._selectedList.delete(value);
   }
 
   getGenres(feature?) {
-    this._movie.getGenres().pipe(delay(2000)).subscribe((res: any) => {
+    this._movie.getGenres(feature).pipe(delay(2000)).subscribe((res: any) => {
       this.genreslist = res.genres;
-      //this.loader = false;
     });
   }
-  searchMovies(){
-    let querystring='';
-     querystring=Array.from(this.selectedList.keys()).join(",");
-    this.router.navigateByUrl(`/genres/${querystring}`);
+
+  search() {
+    const querystring = Array.from(this._selectedList.keys()).join(",");
+    const route = this._selectedFeature == 'movie' ? '/genres' : '/genres-tv';
+    this.router.navigateByUrl(`${route}/${querystring}`);
   }
 }

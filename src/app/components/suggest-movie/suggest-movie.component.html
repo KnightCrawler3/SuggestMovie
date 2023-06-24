@@ -18,16 +18,16 @@
                             <div style="margin-top: 50px;">
                                 <ng-container *ngIf="showTVMovieBtn">
                                     <div>
-                                        <button type="button" class="btn btn-primary" (click)="btnClick('tvseries')"
+                                        <button type="button" class="btn btn-primary" (click)="btnClick('tv')"
                                             style="height: 60px;width: 120px; margin-right: 30px; vertical-align: middle; font-size: initial;">
                                             TV Series</button>
-                                        <button type="button" class="btn btn-primary" (click)="btnClick('movies')"
+                                        <button type="button" class="btn btn-primary" (click)="btnClick('movie')"
                                             style="height: 60px;width: 120px; margin-left: 30px; vertical-align: middle; font-size: initial;">
                                             Movies</button>
                                             
                                     </div>
                                 </ng-container>
-                                <button type="button" *ngIf="!showTVMovieBtn" class="btn btn-primary" (click)="searchMovies()"
+                                <button type="button" *ngIf="!showTVMovieBtn" class="btn btn-primary" (click)="search()"
                                         style="height: 60px;width: 120px; margin-left: 30px; vertical-align: middle; font-size: initial;">
                                         Search</button>
                             </div>

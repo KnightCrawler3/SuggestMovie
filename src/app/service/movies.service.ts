@@ -32,24 +32,7 @@ export class MoviesService {
     ["Western", 37]
   ]);
 
-  tvGenresMap = new Map([
-    [10759, "Action & Adventure"],
-    [16, "Animation"],
-    [35, "Comedy"],
-    [80, "Crime"],
-    [99, "Documentary"],
-    [18, "Drama"],
-    [10751, "Family"],
-    [10762, "Kids"],
-    [9648, "Mystery"],
-    [10763, "News"],
-    [10764, "Reality"],
-    [10765, "Sci-Fi & Fantasy"],
-    [10766, "Soap"],
-    [10767, "Talk"],
-    [10768, "War & Politics"],
-    [37, "Western"],
-  ]);
+
 
   constructor(private http: HttpClient) {
     this.baseUrl = 'https://api.themoviedb.org/3/';
@@ -86,8 +69,8 @@ export class MoviesService {
     return this.http.get(`${this.baseUrl}discover/movie?api_key=${this.apiKey}`);
   }
 
-  getGenres(): Observable<any> {
-    return this.http.get(`${this.baseUrl}genre/movie/list?api_key=${this.apiKey}&language=${this.language}`);
+  getGenres(feature): Observable<any> {
+    return this.http.get(`${this.baseUrl}genre/${feature}/list?api_key=${this.apiKey}&language=${this.language}`);
   }
 
   getMoveisByMultipleGenres(list) {

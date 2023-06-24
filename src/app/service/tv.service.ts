@@ -12,6 +12,25 @@ export class TvService {
   language: string;
   region: string;
 
+  tvGenresMap = new Map([
+    ["Action & Adventure", 10759],
+    ["Animation", 16],
+    ["Comedy", 35],
+    ["Crime", 80],
+    ["Documentary", 99],
+    ["Drama", 18],
+    ["Family", 10751],
+    ["Kids", 10762],
+    ["Mystery", 9648],
+    ["News", 10763],
+    ["Reality", 10764],
+    ["Sci-Fi & Fantasy", 10765],
+    ["Soap", 10766],
+    ["Talk", 10767],
+    ["War & Politics", 10768],
+    ["Western", 37],
+  ]);
+
   constructor(private http: HttpClient) {
     this.baseUrl = 'https://api.themoviedb.org/3/';
     this.apiKey = 'dd4d819639705d332d531217b4f7c6b6';
@@ -65,6 +84,14 @@ export class TvService {
 
   searchtv(searchStr: string): Observable<any> {
     return this.http.get(`${this.baseUrl}search/tv?api_key=${this.apiKey}&query=${searchStr}`);
+  }
+
+  getShowsByTvGenres(list) {
+
+    const genreIds = list.split(',');
+    const querystring = genreIds.map(key => this.tvGenresMap.get(key)).join(',');
+    
+    return this.http.get(`${this.baseUrl}discover/tv?api_key=${this.apiKey}&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${querystring.toString()}`); 
   }
 
 }

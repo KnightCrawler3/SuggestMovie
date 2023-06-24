@@ -4,7 +4,7 @@
             <h2 class="listing__title">TV Genre: {{ title }}</h2>
         </div>
         <div class="row">
-            <div class="col-md-2 listing__items" *ngFor="let tv of _tv; let i = index;">
+            <div class="col-md-2 listing__items" *ngFor="let tv of tvGenre; let i = index;">
                 <div [routerLink]="['/tv/', tv.id]">
                     <div class="movie-item-style">
                         <div class="overlay">

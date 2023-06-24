@@ -48,7 +48,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'genres-tv/:id/:name',
+    path: 'genres-tv/:name',
     loadChildren: () => import('./components/tv-genre/tv-genre.module').then(m => m.TvGenreModule)
   },
 

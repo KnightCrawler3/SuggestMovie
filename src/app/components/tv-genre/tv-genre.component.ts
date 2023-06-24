@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { delay } from 'rxjs/internal/operators/delay';
 import { MoviesService } from 'src/app/service/movies.service';
 import { TvService } from 'src/app/service/tv.service';
 
@@ -13,8 +14,8 @@ export class TvGenreComponent implements OnInit {
 
   _tv: Object;
   title: string;
-  public id: number;
-
+  public genrelist: number;
+  tvGenre: any;
   constructor(
     private tvService: TvService,
     private router: ActivatedRoute
@@ -23,16 +24,15 @@ export class TvGenreComponent implements OnInit {
 
   ngOnInit() {
     this.router.params.subscribe((params: Params) => {
-      this.id = params['id'];
+      this.genrelist = params['name'];
       this.title = params['name'];
-      this.getTvByGenre(this.id);
+      this.getTvByGenre();
     });
   }
 
-  getTvByGenre(id) {
-    this.tvService.getTVShowByGenre(id).subscribe((res: any) => {
-        this._tv = res.results;
+  getTvByGenre() {
+    this.tvService.getShowsByTvGenres(this.genrelist).pipe(delay(2000)).subscribe((res: any) => {
+      this.tvGenre = res.results;
     });
   }
-
-}
+  }

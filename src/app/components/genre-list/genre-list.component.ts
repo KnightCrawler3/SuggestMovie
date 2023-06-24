@@ -22,7 +22,7 @@ export class GenreListComponent implements OnInit {
   }
 
   MovieGenre() {
-    this._movie.getGenres().pipe(delay(2000)).subscribe((res: any) => {
+    this._movie.getGenres('movie').pipe(delay(2000)).subscribe((res: any) => {
       this.genreslist = res.genres;
       this.loader = false;
     });
