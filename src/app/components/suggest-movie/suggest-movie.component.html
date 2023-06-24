@@ -1,11 +1,12 @@
 <div class="hero">
-
-        <div class="backdrop">
+    <ng-container *ngFor="let slider of nowPlaying; let i = index">
+        <div class="backdrop" *ngIf="current == i" @fade>
             <div class="lazyloaded">
                 <img alt="sdsd" class="lazyload image"
-                    src="https://image.tmdb.org/t/p/original//81vgYY5fnGdi3WoCCoSm50gFSKn.jpg">
+                    src="https://image.tmdb.org/t/p/original//{{slider?.backdrop_path}}">
             </div>
         </div>
+    </ng-container>
         <div style="position: inherit; top: 170px;">
             <mat-grid-list cols="2" rowHeight="2:1">
                 <mat-grid-tile >
