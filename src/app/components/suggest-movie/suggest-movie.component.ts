@@ -1,4 +1,4 @@
-import { animate, style, transition, trigger } from '@angular/animations';
+import { animate, query, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { delay } from 'rxjs/internal/operators/delay';
@@ -19,28 +19,28 @@ export class SuggestMovieComponent implements OnInit {
 
   public showTVMovieBtn: boolean = true;
   public genreslist: any;
-  private _selectedFeature;
+  private _selectedFeature: string;
   private _selectedList = new Map();
-  public nowPlaying;
-  current=1;
+  public nowPlaying: string | any[];
+  public current=0;
   constructor(private _movie: MoviesService, private router: Router) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.trendingMovies(1);
     this.sliderTimer();
   }
 
-  btnClick(feature) {
+  btnClick(feature: string) {
     this.showTVMovieBtn = false;
     this._selectedFeature = feature;
     this.getGenres(feature);
   }
 
-  onToggleClick(value, $event) {
+  onToggleClick(value: any, $event: { source: { _checked: any; }; }) {
     $event.source._checked ? this._selectedList.set(value, true) : this._selectedList.delete(value);
   }
 
-  getGenres(feature?) {
+  getGenres(feature?: any) {
     this._movie.getGenres(feature).pipe(delay(2000)).subscribe((res: any) => {
       this.genreslist = res.genres;
     });

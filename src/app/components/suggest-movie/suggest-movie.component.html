@@ -1,6 +1,6 @@
 <div class="hero">
-    <ng-container *ngFor="let slider of nowPlaying; let i = index">
-        <div class="backdrop" *ngIf="current == i" @fade>
+    <ng-container *ngFor="let slider of nowPlaying; let i = index" >
+        <div class="backdrop" *ngIf="current == i">
             <div class="lazyloaded">
                 <img alt="sdsd" class="lazyload image"
                     src="https://image.tmdb.org/t/p/original//{{slider?.backdrop_path}}">
