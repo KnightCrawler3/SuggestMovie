@@ -1,60 +1,95 @@
 <div class="hero">
     <ng-container *ngFor="let slider of nowPlaying; let i = index" >
         <div class="backdrop" *ngIf="current == i">
-            <div class="lazyloaded">
-                <img alt="sdsd" class="lazyload image"
-                    src="https://image.tmdb.org/t/p/original//{{slider?.backdrop_path}}">
-            </div>
+                <div class="lazyloaded">
+                    <img alt="sdsd" class="lazyload image"
+                        [src]="slider?.backdrop_path | tmdbImage:'original'">
+                </div>
         </div>
     </ng-container>
-        <div style="position: inherit; top: 170px;">
-            <mat-grid-list cols="2" rowHeight="2:1">
-                <mat-grid-tile >
-            
-                    <div class="pane">
-                        <div >
-                            <h1 class="name" >
-                                Suggest Me
-                            </h1>
-                            <div style="margin-top: 50px;">
-                                <ng-container *ngIf="showTVMovieBtn">
-                                    <div>
-                                        <button type="button" class="btn btn-primary" (click)="btnClick('tv')"
-                                            style="height: 60px;width: 120px; margin-right: 30px; vertical-align: middle; font-size: initial;">
-                                            TV Series</button>
-                                        <button type="button" class="btn btn-primary" (click)="btnClick('movie')"
-                                            style="height: 60px;width: 120px; margin-left: 30px; vertical-align: middle; font-size: initial;">
-                                            Movies</button>
-                                            
-                                    </div>
-                                </ng-container>
-                                <button type="button" *ngIf="!showTVMovieBtn" class="btn btn-primary" (click)="search()"
-                                        style="height: 60px;width: 120px; margin-left: 30px; vertical-align: middle; font-size: initial;">
-                                        Search</button>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </mat-grid-tile>
-                <mat-grid-tile class="align">
-            
-                    <div style="display: flex;
-                            align-items: center;
-                            justify-content: center;" *ngIf="!showTVMovieBtn">
-                        <div style="display: block;">
-                            <tr >
-                                <td>
-                                    <mat-button-toggle-group  style="" multiple>
-                                        <ng-container *ngFor="let genre of genreslist">
-                                            <mat-button-toggle style="width: 400px;margin-right: 5px;margin-bottom: 2px;" value="{{genre.name}}" class="toggle"
-                                                (change)="onToggleClick($event.value,$event)">{{genre.name}}</mat-button-toggle>
-                                        </ng-container>
-                                    </mat-button-toggle-group>
-                                </td>
-                            </tr>
-                        </div>
-                    </div>
-                </mat-grid-tile>
-            </mat-grid-list>
+
+    <!-- Main Content Container -->
+    <div class="ai-recommendation-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <h1 class="main-title">🎬 AI Movie Recommendations</h1>
+            <p class="subtitle">Tell me what you're in the mood for, and I'll find your perfect movies</p>
         </div>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-card">
+                <mat-form-field appearance="outline" class="preference-input">
+                    <mat-label>Describe your movie preferences</mat-label>
+                    <textarea matInput
+                              [(ngModel)]="userPreference"
+                              rows="6"
+                              placeholder="e.g., 'sci-fi thrillers with time travel', 'dark crime dramas', 'feel-good romantic comedies', 'epic fantasy adventures'"></textarea>
+                    <mat-hint>Be as specific or general as you like - the AI understands natural language!</mat-hint>
+                </mat-form-field>
+
+                <button mat-raised-button
+                        color="primary"
+                        class="recommend-btn"
+                        (click)="getRecommendations()"
+                        [disabled]="isLoading || !userPreference.trim()">
+                    <mat-icon *ngIf="!isLoading">auto_awesome</mat-icon>
+                    <mat-icon *ngIf="isLoading" class="spin">refresh</mat-icon>
+                    {{ isLoading ? 'Finding your perfect movies...' : 'Get AI Recommendations' }}
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div *ngIf="recommendations.length > 0" class="results-section">
+            <!-- AI Explanation -->
+            <div *ngIf="explanation" class="explanation-card">
+                <div class="explanation-header">
+                    <mat-icon>psychology</mat-icon>
+                    <h3>AI Recommendation Analysis</h3>
+                </div>
+                <p class="explanation-text">{{ explanation }}</p>
+            </div>
+
+            <!-- Movie Recommendations Grid -->
+            <div class="movies-grid">
+                <h3 class="section-title">Recommended Movies</h3>
+                <div class="movies-container">
+                    <mat-card *ngFor="let movie of recommendations; let i = index"
+                              class="movie-card"
+                              [class.highlighted]="i === 0"
+                              (click)="viewMovieDetails(movie.id)"
+                              style="cursor: pointer;">
+                        <mat-card-header>
+                            <mat-card-title>{{ movie.title }}</mat-card-title>
+                            <mat-card-subtitle>{{ movie.release_year }}</mat-card-subtitle>
+                        </mat-card-header>
+
+                        <mat-card-content>
+                            <div class="genres">
+                                <mat-chip-list>
+                                    <mat-chip *ngFor="let genre of movie.genres">{{ genre }}</mat-chip>
+                                </mat-chip-list>
+                            </div>
+                            <p class="overview">{{ movie.overview }}</p>
+                        </mat-card-content>
+
+                        <mat-card-actions>
+                            <button mat-button color="primary" (click)="$event.stopPropagation()">
+                                <mat-icon>info</mat-icon>
+                                More Details
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="!isLoading && recommendations.length === 0 && userPreference" class="empty-state">
+            <mat-icon class="empty-icon">movie_filter</mat-icon>
+            <h3>No recommendations yet</h3>
+            <p>Try describing different preferences or genres!</p>
+        </div>
+    </div>
 </div>

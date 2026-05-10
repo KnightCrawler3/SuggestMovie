@@ -1,34 +1,370 @@
-.align {
-    text-align: center;
-    height: 200px;
-    margin: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    overflow: inherit;
+// Main container - full screen usage
+.ai-recommendation-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  overflow-y: auto;
+  z-index: 10;
 }
 
-.toggle{
-    font-size: medium;
-}
+// Header section
+.header-section {
+  text-align: center;
+  margin-bottom: 3rem;
 
-mat-button-toggle-group {
-    flex-wrap: wrap;
+  .main-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: fadeInUp 1s ease-out;
   }
 
-  .mat-button-toggle{
-    background-color: #dc4666;
-    color: #ffffff;
+  .subtitle {
+    font-size: 1.4rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    animation: fadeInUp 1.2s ease-out;
+  }
 }
 
-.mat-button-toggle:hover {
-    background-color: #7c3142 ;
-    color: #ffffff !important;    
+// Input section
+.input-section {
+  max-width: 1100px;
+  margin: 0 auto 4rem;
+  animation: fadeInUp 1.4s ease-out;
+
+  .input-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 4.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    .preference-input {
+      font-size: large;
+      width: 100%;
+      margin-bottom: 2.5rem;
+
+      ::ng-deep .mat-mdc-form-field-outline {
+        color: rgba(0, 0, 0, 0.3);
+      }
+
+      ::ng-deep .mat-mdc-form-field-label {
+        color: rgba(0, 0, 0, 0.7);
+        font-weight: 500;
+        font-size: 1.3rem;
+      }
+
+      ::ng-deep .mat-mdc-input-element {
+        font-size: 1.8rem;
+        line-height: 2.2;
+      }
+
+      ::ng-deep .mat-mdc-form-field-hint {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 1.1rem;
+      }
+    }
+
+    .recommend-btn {
+      width: 100%;
+      height: 80px;
+      font-size: 1.5rem;
+      font-weight: 600;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+      }
+
+      &:disabled {
+        background: rgba(0, 0, 0, 0.3);
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .mat-icon {
+        margin-right: 8px;
+        font-size: 1.6rem;
+
+        &.spin {
+          animation: spin 1s linear infinite;
+        }
+      }
+    }
+  }
 }
 
-.mat-button-toggle-checked {
-    background-color: #7c3142 ;
-    color: #ffffff !important;  
+// Results section
+.results-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+// AI Explanation Card
+.explanation-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 3.5rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  .explanation-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    .mat-icon {
+      font-size: 2.5rem;
+      margin-right: 1.5rem;
+      color: #667eea;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+
+  .explanation-text {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: #555;
+    margin: 0;
+  }
+}
+
+// Movies Grid
+.movies-grid {
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .movies-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+// Movie Cards
+.movie-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: fit-content;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  &.highlighted {
+    border: 2px solid #667eea;
+    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+
+    .mat-card-title {
+      color: #667eea;
+    }
+  }
+
+  .mat-card-header {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    padding: 2rem;
+
+    .mat-card-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .mat-card-subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      font-weight: 500;
+    }
+  }
+
+  .mat-card-content {
+    padding: 2rem;
+
+    .genres {
+      margin-bottom: 1.5rem;
+
+      .mat-chip-listbox {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+      }
+
+      .mat-chip {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-size: 0.95rem;
+        font-weight: 500;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+      }
+    }
+
+    .overview {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #555;
+      margin: 0;
+    }
+  }
+
+  .mat-card-actions {
+    padding: 1.5rem 2rem 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+    .mat-button {
+      font-weight: 500;
+      font-size: 1rem;
+      border-radius: 25px;
+
+      .mat-icon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+// Empty state
+.empty-state {
+  text-align: center;
+  padding: 5rem 2rem;
+  color: white;
+
+  .empty-icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+  }
+
+  h3 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  p {
+    font-size: 1.4rem;
+    opacity: 0.9;
+  }
+}
+
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .ai-recommendation-container {
+    padding: 1rem;
+  }
+
+  .header-section {
+    margin-bottom: 2rem;
+
+    .main-title {
+      font-size: 2.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+    }
+  }
+
+  .input-section {
+    margin-bottom: 3rem;
+
+    .input-card {
+      padding: 2rem;
+    }
+  }
+
+  .movies-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .explanation-card {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-section .main-title {
+    font-size: 2rem;
+  }
+
+  .input-card {
+    padding: 1.5rem;
+  }
+
+  .movie-card .mat-card-header {
+    padding: 1rem;
+  }
+
+  .movie-card .mat-card-content {
+    padding: 1rem;
+  }
+}
+
+/* Ensure grid tiles are tall enough on desktop to avoid cutting content */
+@media (min-width: 1024px) {
+    .hero-grid-wrapper .mat-grid-tile {
+        min-height: 420px; /* ensure enough space for pane content */
+    }
+}
+
+@media (max-width: 1023px) {
+    .hero-grid-wrapper .mat-grid-tile {
+        min-height: 260px;
+    }
 }

@@ -18,11 +18,12 @@ import { MoviesService } from 'src/app/service/movies.service';
 export class SuggestMovieComponent implements OnInit {
 
   public showTVMovieBtn: boolean = true;
-  public genreslist: any;
-  private _selectedFeature: string;
-  private _selectedList = new Map();
+  public userPreference: string = '';
+  public recommendations: any[] = [];
+  public explanation: string = '';
+  public isLoading: boolean = false;
   public nowPlaying: string | any[];
-  public current=0;
+  public current = 0;
   constructor(private _movie: MoviesService, private router: Router) { }
 
   ngOnInit() {
@@ -30,26 +31,33 @@ export class SuggestMovieComponent implements OnInit {
     this.sliderTimer();
   }
 
-  btnClick(feature: string) {
-    this.showTVMovieBtn = false;
-    this._selectedFeature = feature;
-    this.getGenres(feature);
+  async getRecommendations() {
+    if (!this.userPreference.trim()) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.recommendations = [];
+    this.explanation = '';
+
+    try {
+      // Get recommendations
+      const recResponse = await this._movie.getRecommendations(this.userPreference).toPromise();
+      this.recommendations = recResponse.recommendations;
+
+      // Get explanation
+      const expResponse = await this._movie.getExplanation(this.userPreference, this.recommendations).toPromise();
+      this.explanation = expResponse.explanation;
+    } catch (error) {
+      console.error('Error getting recommendations:', error);
+      this.explanation = 'Sorry, there was an error getting recommendations. Please try again.';
+    } finally {
+      this.isLoading = false;
+    }
   }
 
-  onToggleClick(value: any, $event: { source: { _checked: any; }; }) {
-    $event.source._checked ? this._selectedList.set(value, true) : this._selectedList.delete(value);
-  }
-
-  getGenres(feature?: any) {
-    this._movie.getGenres(feature).pipe(delay(2000)).subscribe((res: any) => {
-      this.genreslist = res.genres;
-    });
-  }
-
-  search() {
-    const querystring = Array.from(this._selectedList.keys()).join(",");
-    const route = this._selectedFeature == 'movie' ? '/genres' : '/genres-tv';
-    this.router.navigateByUrl(`${route}/${querystring}`);
+  viewMovieDetails(movieId: number) {
+    this.router.navigate(['/movies', movieId]);
   }
 
   trendingMovies(page: number) {
