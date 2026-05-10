@@ -3,7 +3,7 @@
         <div class="slider" *ngIf="current == i" @fade>
             <div class="backdrop">
                 <div class="lazyloaded">
-                    <img alt="{{slider?.title}}" class="lazyload image" src="https://image.tmdb.org/t/p/original/{{slider?.backdrop_path}}">
+                    <img alt="{{slider?.title}}" class="lazyload image" [src]="slider?.backdrop_path | tmdbImage:'original'">
                 </div>
             </div>
             <div class="pane">
