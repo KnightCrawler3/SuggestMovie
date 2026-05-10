@@ -46,8 +46,12 @@ export class MoviesService {
     return this.http.get(`${this.baseUrl}movie/now_playing?api_key=${this.apiKey}&page=${page}&language=${this.language}&region=${this.region}`);
   }
 
-  searchMovies(searchStr: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}search/movie?api_key=${this.apiKey}&query=${searchStr}`);
+  /**
+   * Search movies using TMDB search endpoint. Supports pagination via `page`.
+   */
+  searchMovies(searchStr: string, page: number = 1): Observable<any> {
+    const q = encodeURIComponent(searchStr || '');
+    return this.http.get(`${this.baseUrl}search/movie?api_key=${this.apiKey}&query=${q}&page=${page}&language=${this.language}`);
   }
 
   getPopular(page: number): Observable<any> {
@@ -63,6 +67,29 @@ export class MoviesService {
   getTopRatedMovies(page: number): Observable<any> {
     // tslint:disable-next-line: max-line-length
     return this.http.get(`${this.baseUrl}movie/top_rated?api_key=${this.apiKey}&page=${page}&language=${this.language}&region=${this.region}`);
+  }
+
+  /**
+   * Discover movies filtered by primary release year. This is server-side filtering
+   * and supports pagination through the `page` parameter.
+   */
+  getMoviesByYear(year: number, page: number, sort: string = 'popularity.desc'): Observable<any> {
+    return this.http.get(`${this.baseUrl}discover/movie?api_key=${this.apiKey}&primary_release_year=${year}&page=${page}&language=${this.language}&sort_by=${sort}`);
+  }
+
+  /**
+   * Discover movies filtered by a release date range. Uses primary_release_date.gte/lte
+   * and supports pagination.
+   */
+  getMoviesByYearRange(startYear: number, endYear: number, page: number, sort: string = 'popularity.desc'): Observable<any> {
+    const gte = `${startYear}-01-01`;
+    const lte = `${endYear}-12-31`;
+    return this.http.get(`${this.baseUrl}discover/movie?api_key=${this.apiKey}&primary_release_date.gte=${gte}&primary_release_date.lte=${lte}&page=${page}&language=${this.language}&sort_by=${sort}`);
+  }
+
+  /** Generic discover endpoint with sort support (no date filters) */
+  getDiscover(page: number, sort: string = 'popularity.desc'): Observable<any> {
+    return this.http.get(`${this.baseUrl}discover/movie?api_key=${this.apiKey}&page=${page}&language=${this.language}&sort_by=${sort}`);
   }
 
   getDiscoverMovies(): Observable<any> {
@@ -121,6 +148,15 @@ export class MoviesService {
 
   getPersonCast(id: string): Observable<any> {
     return this.http.get(`${this.baseUrl}person/${id}/movie_credits?api_key=${this.apiKey}`);
+  }
+
+  // AI Recommendation methods
+  getRecommendations(preference: string): Observable<any> {
+    return this.http.post('http://localhost:3000/recommend', { preference });
+  }
+
+  getExplanation(preference: string, recommendations: any[]): Observable<any> {
+    return this.http.post('http://localhost:3000/explain', { preference, recommendations });
   }
 
 }

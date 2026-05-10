@@ -8,7 +8,7 @@
                     <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                         d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z" /></svg>
             </button>
-            <img class="lazyload image" src="https://image.tmdb.org/t/p/original/{{ episode?.backdrop_path }}">
+            <img class="lazyload image" [src]="episode?.backdrop_path | tmdbImage:'original'">
         </div>
     </div>
     <div class="pane">
@@ -41,7 +41,7 @@
                     <div class="listing-space info">
                         <div class="left">
                             <div class="poster">
-                                <img src="https://image.tmdb.org/t/p/w370_and_h556_bestv2/{{ episode?.poster_path }}">
+                                <img [src]="episode?.poster_path | tmdbImage:'w370_and_h556_bestv2'">
                             </div>
                         </div>
                         <div class="right">
@@ -169,7 +169,7 @@
                             <div class="item backdrop_" *ngFor="let item of backdrop | slice: 1:10">
                                 <div class="image">
                                     <img class="lazyload"
-                                        src="https://image.tmdb.org/t/p/w533_and_h300_bestv2/{{ item?.file_path }}">
+                                        [src]="item?.file_path | tmdbImage:'w533_and_h300_bestv2'">
                                 </div>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
                                 <div class="hover"><i class="material-icons">play_arrow</i> PLAY NOW</div>
                             </div>
                             <img *ngIf="recomend?.poster_path"
-                                src="https://image.tmdb.org/t/p/w370_and_h556_bestv2/{{recomend?.poster_path}}">
+                                [src]="recomend?.poster_path | tmdbImage:'w370_and_h556_bestv2'">
                             <img *ngIf="!recomend?.poster_path" src="assets/images/default-movie.png">
                             <h6>{{ recomend?.name }}</h6>
                             <p class="rate"><i class="material-icons">star</i><span>{{recomend?.vote_average}}</span>

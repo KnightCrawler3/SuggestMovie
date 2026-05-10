@@ -16,7 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SkeletonModule } from './shared/skeleton/skeleton.module';
 import { SuggestMovieComponent } from './components/suggest-movie/suggest-movie.component';
-import { MatButtonToggleModule, MatFormFieldModule, MatGridListModule, MatInputModule, MatSelectModule } from '@angular/material';
+import { MatButtonToggleModule, MatFormFieldModule, MatGridListModule, MatInputModule, MatSelectModule, MatCardModule, MatChipsModule, MatIconModule, MatButtonModule } from '@angular/material';
 
 
 @NgModule({
@@ -40,7 +40,7 @@ import { MatButtonToggleModule, MatFormFieldModule, MatGridListModule, MatInputM
     SidebarModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    SkeletonModule,MatFormFieldModule, MatSelectModule, MatInputModule,MatButtonToggleModule,MatGridListModule,
+    SkeletonModule,MatFormFieldModule, MatSelectModule, MatInputModule,MatButtonToggleModule,MatGridListModule, MatCardModule, MatChipsModule, MatIconModule, MatButtonModule,
     BrowserAnimationsModule,NoopAnimationsModule
   ],
 

@@ -8,7 +8,7 @@
                     <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                         d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z" /></svg>
             </button>
-            <img class="lazyload image" src="https://image.tmdb.org/t/p/original/{{ movie?.backdrop_path }}">
+            <img class="lazyload image" [src]="movie?.backdrop_path | tmdbImage:'original'">
         </div>
     </div>
     <div class="pane">
@@ -42,7 +42,7 @@
                     <div class="listing-space info__movies">
                         <div class="left">
                             <div class="poster">
-                                <img src="https://image.tmdb.org/t/p/w370_and_h556_bestv2/{{ movie?.poster_path }}">
+                                <img [src]="movie?.poster_path | tmdbImage:'w370_and_h556_bestv2'">
                             </div>
                         </div>
                         <div class="right">
@@ -125,7 +125,7 @@
                                         <div class="hover">Details</div>
                                     </div>
                                     <img *ngIf="cast.profile_path"
-                                        src="https://image.tmdb.org/t/p/w370_and_h556_bestv2/{{cast?.profile_path}}">
+                                        [src]="cast?.profile_path | tmdbImage:'w370_and_h556_bestv2'">
                                     <img *ngIf="!cast?.profile_path" src="assets/images/default-movie.png">
                                     <h6>{{ cast?.name }}</h6>
                                 </div>
@@ -172,7 +172,7 @@
                         <div class="items">
                             <div class="item backdrop_" *ngFor="let backdrop of backdrops | slice: 1:17">
                                 <div class="image">
-                                    <img class="lazyload" src="https://image.tmdb.org/t/p/w533_and_h300_bestv2/{{ backdrop?.file_path }}">
+                                    <img class="lazyload" [src]="backdrop?.file_path | tmdbImage:'w533_and_h300_bestv2'">
                                 </div>
                             </div>
                         </div>
@@ -192,7 +192,7 @@
                                 <div class="hover"><i class="material-icons">play_arrow</i> PLAY NOW</div>
                             </div>
                             <img *ngIf="recomend?.poster_path"
-                                src="https://image.tmdb.org/t/p/w370_and_h556_bestv2/{{recomend?.poster_path}}">
+                                [src]="recomend?.poster_path | tmdbImage:'w370_and_h556_bestv2'">
                             <img *ngIf="!recomend?.poster_path" src="assets/images/default-movie.png">
                             <h6>{{ recomend?.title }}</h6>
                             <p class="rate"><i class="material-icons">star</i><span>{{recomend?.vote_average}}</span>

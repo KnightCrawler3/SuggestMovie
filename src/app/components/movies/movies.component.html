@@ -1,7 +1,6 @@
 <div class="listing">
     <div class="listing__head">
-        <h3 class="listing__title" *ngIf="!searchRes">Movies</h3>
-        <h3 class="listing__title" *ngIf="searchRes">Search Movies</h3>
+        <h3 class="listing__title">{{ searchStr && searchStr.trim().length ? 'Search Results' : 'Movies' }}</h3>
     </div>
     <form>
         <div class="row">
@@ -15,32 +14,38 @@
                         </span>
                     </div>
                 </div>
+                <div style="margin-top:8px;">
+                    <button class="btn btn-light" type="button" (click)="searchStr=''; loadMovies(1)" *ngIf="searchStr && searchStr.trim().length">Clear Search</button>
+                </div>
             </div>
-        </div>    
-    </form>
-
-    <ng-container *ngIf="searchRes">
-        <app-skeleton *ngIf="loader"></app-skeleton>
-        <div class="row" *ngIf="!loader">
-            <div class="col-md-2 listing__items" *ngFor="let movie of searchRes | slice:0:18">
-                <div [routerLink]="['/movies/', movie.id]">
-                    <div class="listing-item-style">
-                        <div class="overlay">
-                            <div class="hover"><i class="material-icons">play_arrow</i> PLAY NOW</div>
-                        </div>
-                        <img *ngIf="movie?.poster_path" src="https://image.tmdb.org/t/p/w370_and_h556_bestv2/{{movie?.poster_path}}"
-                            [alt]="movie.title ? movie.title : movie.name">
-                        <img *ngIf="!movie?.poster_path" src="assets/images/default-movie.png"
-                            [alt]="movie.title ? movie.title : movie.name">
-                        <h6>{{ movie?.title }}</h6>
-                        <p class="rate"><i class="material-icons">star</i><span>{{movie?.vote_average}}</span> /10</p>
-                        <p class="year"><span>{{movie?.release_date | date: 'yyyy'}}</span>
-                        </p>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Filter by year range</label>
+                    <div class="d-flex">
+                        <select class="form-control mr-2" [(ngModel)]="startYear" (ngModelChange)="onRangeChange()" name="startYear">
+                            <option [ngValue]="null">From</option>
+                            <option *ngFor="let y of years" [ngValue]="y">{{ y }}</option>
+                        </select>
+                        <select class="form-control" [(ngModel)]="endYear" (ngModelChange)="onRangeChange()" name="endYear">
+                            <option [ngValue]="null">To</option>
+                            <option *ngFor="let y of years" [ngValue]="y">{{ y }}</option>
+                        </select>
+                    </div>
+                    <div style="margin-top:8px;">
+                        <button class="btn btn-secondary" type="button" (click)="startYear=null; endYear=null; selectedYear=null; selectedSort='popularity.desc'; loadMovies(1)">Clear Range</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </ng-container>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="sortSelect">Sort</label>
+                    <select id="sortSelect" class="form-control" [(ngModel)]="selectedSort" (ngModelChange)="loadMovies(1)" name="selectedSort">
+                        <option *ngFor="let s of sortOptions" [value]="s.value">{{ s.label }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>    
+    </form>
 
     <app-skeleton *ngIf="loader"></app-skeleton>
     <div class="row" *ngIf="!loader">
@@ -50,7 +55,7 @@
                     <div class="overlay">
                         <div class="hover"><i class="material-icons">play_arrow</i> PLAY NOW</div>
                     </div>
-                    <img src="https://image.tmdb.org/t/p/w370_and_h556_bestv2/{{movie?.poster_path}}"
+                    <img *ngIf="movie?.poster_path" [src]="movie?.poster_path | tmdbImage:'w370_and_h556_bestv2'"
                         [alt]="movie.title ? movie.title : movie.name">
                     <img *ngIf="!movie?.poster_path" src="assets/images/default-movie.png"
                         [alt]="movie.title ? movie.title : movie.name">
